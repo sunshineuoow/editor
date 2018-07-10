@@ -1,4 +1,15 @@
-@import './less/_base.less';
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10PX;
+  body {
+    font-size: 16PX;
+  }
+}
 
 #app > div {
   display: flex;
@@ -20,18 +31,23 @@ iframe {
 button {
   padding: 5px 10px;
   border: none;
+  outline: none;
   color: #fff;
   background-color: #6192b3;
 }
 
 .input-item {
   padding-bottom: 10px;
+  font-size: 14px;
   input {
-    margin-top: 10px;
     width: 100%;
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 20px;
   }
 }
 
 #editor {
+  margin-top: 20px;
   height: 400px;
 }

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './app.less'
-import Editor from '../editor/index'
+import Editor from '../editor/editor'
 
 interface State {
   title: string
@@ -17,7 +17,11 @@ class App extends React.Component {
   state: State = initialState
 
   componentDidMount() {
-    const editor = new Editor('#editor')
+    const editor = new Editor('#editor', {
+      onchange: (html: string) => {
+        this.postMessage({data: html, type: 'content'})
+      }
+    })
     editor.create()
     const frame = document.querySelector('iframe') as HTMLIFrameElement
     if (frame.contentWindow) {
@@ -60,9 +64,7 @@ class App extends React.Component {
             当日标题：<input type="text" onChange={this.handleChange.bind(this, 'title')} />
           </div>
           <button onClick={this.handlePostTitle.bind(this)}>设置标题</button>
-          <div id="editor">
-            <button onClick={this.postMessage.bind(this, {type: 'content', data: 'aaa'})}>点我发送消息</button>
-          </div>
+          <div id="editor"></div>
         </div>
       </div>
     )

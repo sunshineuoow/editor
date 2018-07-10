@@ -24,6 +24,11 @@ module.exports = {
       {
         test: /\.less$/,
         use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader']
+      },
+      {
+        test: /\.(eot|woff|woff2|svg|ttf|png|jpg|jpeg|gif)(\?v=[\d\.]+)?$/,
+        use: 'file-loader',
+        exclude: /node_modules\/antd-mobile/
       }
     ]
   },
