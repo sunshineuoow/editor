@@ -58,7 +58,6 @@ export default class Command {
   // }
 
   private _execCommand(name: string, value: any): void {
-    console.log(name)
     document.execCommand(name, false, value)
   }
 

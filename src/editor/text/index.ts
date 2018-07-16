@@ -1,4 +1,4 @@
-import $ from '../util/dom'
+// import $ from '../util/dom'
 import Editor from '../editor'
 
 export default class Text {
