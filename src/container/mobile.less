@@ -1,5 +1,11 @@
 @import './less/_base.less';
 
+@fontB: PingFangSC-Medium;
+@fontT: PingFangSC-Regular;
+@yellow: #f8e71c;
+@blue: #4a90e2;
+@base: #333740;
+
 html, body {
   display: flex;
   justify-content: center;
@@ -39,12 +45,21 @@ html, body {
   padding: 60px 24px 0;
 }
 
-blockquote {
-  padding: 12px 20px 12px 16px;
-  border-left: 4PX solid #4a90e2;
-  background-color: #f4f8ff;
-  p {
-    padding-bottom: 0!important;
-    line-height: 22px;
-  }
+h1 {
+  padding-top: 9px;
+  font-family: @fontB;
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-family: @fontB;
+  font-size: 20px;
+  color: @base;
+}
+
+h3 {
+  font-family: @fontB;
+  font-size: 18px;
+  color: #000;
 }

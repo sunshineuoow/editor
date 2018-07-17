@@ -1,27 +1,30 @@
 import * as React from 'react'
 import './app.less'
-import Editor from '../editor/editor'
+const Editor = require('wangeditor') 
 
 interface State {
   title: string
   section: string
+  filename: string
 }
 
 const initialState:State = {
   title: '',
-  section: ''
+  section: '',
+  filename: ''
 }
 
 
 class App extends React.Component {
   state: State = initialState
+  editor: any = React.createRef()
 
   componentDidMount() {
-    const editor = new Editor('#editor', {
-      onchange: (html: string) => {
-        this.postMessage({data: html, type: 'content'})
-      }
-    })
+    const elem = this.editor.current
+    const editor = new Editor(elem)
+    editor.customConfig.onchange = (html: string) => {
+      this.postMessage({data: html, type: 'content'})
+    }
     editor.create()
     const frame = document.querySelector('iframe') as HTMLIFrameElement
     if (frame.contentWindow) {
@@ -47,6 +50,10 @@ class App extends React.Component {
     this.postMessage({data: this.state, type: 'title'})
   }
 
+  private handleSetHtml(): void {
+    console.log('setHtml')
+  }
+
   public render() {
     return (
       <div>
@@ -63,8 +70,12 @@ class App extends React.Component {
           <div className="input-item">
             当日标题：<input type="text" onChange={this.handleChange.bind(this, 'title')} />
           </div>
-          <button onClick={this.handlePostTitle.bind(this)}>设置标题</button>
-          <div id="editor"></div>
+          <div className="input-item">
+            文件名：<input type="text" onChange={this.handleChange.bind(this, 'filename')} />
+          </div>
+          <button className="editor-btn" onClick={this.handlePostTitle.bind(this)}>设置标题</button>
+          <button className="editor-btn" onClick={this.handleSetHtml.bind(this)}>生成文件</button>
+          <div id="editor" ref={this.editor}></div>
         </div>
       </div>
     )
