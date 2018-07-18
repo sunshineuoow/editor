@@ -9,6 +9,10 @@ const router = new Router()
 
 router.post('/index', async (ctx, next) => {
   const { html, filename } = ctx.request.body
+  const filePath = path.join(__dirname, 'files/')
+  if (!fs.existsSync(path.join(__dirname, 'files/'))) {
+    fs.mkdirSync(filePath)
+  }
   fs.writeFileSync(path.join(__dirname, `files/${filename}.html`), html, 'utf-8')
   ctx.body = { r: true }
 })
