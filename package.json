@@ -4,7 +4,8 @@
   "description": "a editor for knowledge card",
   "main": "src/index.js",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack/webpack.config.js"
+    "dev": "webpack-dev-server --config webpack/webpack.config.js",
+    "build": "webpack --config webpack/webpack.prod.config.js && node index.js"
   },
   "keywords": [
     "editor"
@@ -12,9 +13,15 @@
   "author": "sunshineuoow",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-core": "^6.26.3",
+    "koa": "^2.5.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-id-swiper": "^1.6.6",
     "wangeditor": "^3.1.1"
   },
   "devDependencies": {

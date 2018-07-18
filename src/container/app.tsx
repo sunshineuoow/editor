@@ -1,17 +1,21 @@
+const Editor = require('wangeditor')
 import * as React from 'react'
+import Axios from 'axios'
+import { transferHTML } from '../util'
 import './app.less'
-const Editor = require('wangeditor') 
 
 interface State {
   title: string
   section: string
   filename: string
+  html: string
 }
 
 const initialState:State = {
   title: '',
   section: '',
-  filename: ''
+  filename: '',
+  html: ''
 }
 
 
@@ -23,7 +27,18 @@ class App extends React.Component {
     const elem = this.editor.current
     const editor = new Editor(elem)
     editor.customConfig.onchange = (html: string) => {
+      html = transferHTML(html)
+      this.setState({html: html})
       this.postMessage({data: html, type: 'content'})
+    }
+    editor.customConfig.linkImgCallback = () => {
+      const imgs = document.querySelectorAll('img')
+      for (let i = 0; i < imgs.length; i++) {
+        const img = imgs[i]
+        if (img.getAttribute('data-size')) continue
+        img.setAttribute('data-size', `${img.width}x${img.height}`)
+      }
+      editor.change()
     }
     editor.create()
     const frame = document.querySelector('iframe') as HTMLIFrameElement
@@ -51,7 +66,11 @@ class App extends React.Component {
   }
 
   private handleSetHtml(): void {
-    console.log('setHtml')
+    const { html, filename } = this.state
+    if (!filename) alert('请输入文件名')
+    Axios.post('http://127.0.0.1:10000/index', { html, filename }).then(resp => {
+      if (resp.data.r) alert('文件生成成功')
+    })
   }
 
   public render() {

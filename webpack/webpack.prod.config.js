@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
     index: path.join(__dirname, '../src/index.tsx'),
     mobile: path.join(__dirname, '../src/mobile.tsx')
@@ -51,10 +51,5 @@ module.exports = {
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.less']
-  },
-  devServer: {
-    host: '0.0.0.0',
-    port: '9999',
-    hot: true
   }
 }
