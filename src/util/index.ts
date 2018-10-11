@@ -4,15 +4,15 @@ const brReg = /<p><br><\/p>/g
 const hrReg = /<p>(.*?)hr(.*?)<\/p>/g
 const splitReg = /<p>splitLine<\/p>/g
 const imgReg = /<p><img.*?src="(.*?)".*?><\/p>/g
-const ratioReg = /style="max-width:(.*?)%"/g
-const aReg = /<a.*?><img.*?><\/a>/g
+const ratioReg = /style="max-width:(.*?)%;"/g
 const sizeReg = /data-size="(.*?)"/g
 
 export const transferHTML = (html: string): string => {
   html = html.replace(imgReg, (match: string, p1: string) => {
     if (match.indexOf('data-size') >= 0) {
-      const ratioResult = ratioReg.exec(match) || ['100']
-      const ratio = parseFloat(ratioResult[0])
+      const ratioResult = ratioReg.exec(match) || ['', '100']
+      const ratio = parseFloat(ratioResult[1]) / 100
+      const size = sizeReg.exec(match) || "600x400"
       const className = ratio === 1 ? 'img-l' : ratio === 0.5 ? 'img-m' : 'img-s'
       match = `
         <a
@@ -20,10 +20,11 @@ export const transferHTML = (html: string): string => {
           href="${p1}"
           itemprop="contentUrl"
           data-size="600x400"
+          data-med-size="${size[1]}"
           data-med="${p1}"
         >
           ${match}
-        </a.>`.replace(/<\/?p>/g, '').replace('<img', '<img itemprop="thumbnail"')
+        </a>`.replace(/<\/?p>/g, '').replace('<img', '<img itemprop="thumbnail"').replace(/style="max-width:(.*?)%;"/g, '')
     }
     return match
   })
@@ -39,13 +40,6 @@ export const transferHTML = (html: string): string => {
   return html
 }
 
-export const  splitHTML = (html: string): string[] => {
+export const splitHTML = (html: string): string[] => {
   return html.split('splitLine')
-}
-
-export const addImgSize = (html: string): string => {
-  return html.replace(aReg, (match: string): string => {
-    sizeReg.test(match)
-    return match.replace('<a', `<a data-med-size="${RegExp.$1}"`)
-  })
 }
